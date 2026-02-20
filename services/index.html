@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>Services | Astrofoxx</title>
+    <meta
+      name="description"
+      content="Book astrology consultations, muhurtha sessions, numerology guidance, and practitioner coaching."
+    />
+    <meta property="og:title" content="Services | Astrofoxx" />
+    <meta property="og:description" content="Focused consultation formats for clarity, timing, and actionable guidance." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="services">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section" style="padding-top:58px;">
+        <div class="container">
+          <div style="display:flex; justify-content:space-between; gap:14px; align-items:flex-end; flex-wrap:wrap;">
+            <div class="section-head" style="margin-bottom:0;">
+              <span class="eyebrow">Services</span>
+              <h1 style="font-size:clamp(1.9rem,4.1vw,3.4rem);">Focused sessions for timing, clarity, and next steps</h1>
+              <p class="lead">
+                Choose a category to quickly narrow options. This reduces decision fatigue and helps you book faster.
+              </p>
+            </div>
+            <a class="btn btn-primary" data-wa-consultation href="#" target="_blank" rel="noreferrer">
+              <i data-lucide="message-circle"></i>
+              Book on WhatsApp
+            </a>
+          </div>
+
+          <div id="services-filters" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;"></div>
+
+          <div id="services-grid" class="preview-grid-2" style="margin-top:18px;" aria-live="polite"></div>
+
+          <p id="services-empty" class="card card-tight muted hidden" style="margin-top:14px;">
+            No services match this filter. Try another category or use the WhatsApp button for guidance.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

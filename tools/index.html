@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>Tools | Astrofoxx</title>
+    <meta
+      name="description"
+      content="Explore practical astrology tools for planning, study, consultation prep, and timing decisions."
+    />
+    <meta property="og:title" content="Tools | Astrofoxx" />
+    <meta property="og:description" content="Practical utilities for learners and consultation workflows." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="tools">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section" style="padding-top:58px;">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Tools</span>
+            <h1 style="font-size:clamp(1.9rem,4.1vw,3.4rem);">Practical utilities for learners and practitioners</h1>
+            <p class="lead">Filter by category and search by keyword to find the right tool quickly.</p>
+          </div>
+
+          <div class="tools-controls">
+            <label>
+              <span class="sr-only">Search tools</span>
+              <input id="tools-search" class="search-input" type="search" placeholder="Search tools, tags, or categories" />
+            </label>
+            <div id="tools-filters" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+          </div>
+
+          <div id="tools-grid" class="preview-grid-3" style="margin-top:18px;" aria-live="polite"></div>
+
+          <p id="tools-empty" class="card card-tight muted hidden" style="margin-top:14px;">
+            No tools match your filters. Try resetting search or choosing a different category.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

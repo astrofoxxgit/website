@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>Astrofoxx | Vedic Astrology Consultations and Courses</title>
+    <meta
+      name="description"
+      content="Premium astrology consultations, muhurtha guidance, and structured Jyotish learning with Umashankar."
+    />
+    <meta property="og:title" content="Astrofoxx | Vedic Astrology Consultations and Courses" />
+    <meta property="og:description" content="Premium astrology consultations and courses rooted in tradition." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="home">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section compact" style="padding-top: 58px;">
+        <div class="container grid-12 hero-grid">
+          <div class="hero-content" data-reveal>
+            <span class="eyebrow">Traditional Wisdom, Modern Clarity</span>
+            <h1>
+              <span data-bind="teacher-name">Umashankar</span>
+              <span style="display:block; margin-top:8px; color:var(--primary); font-size:clamp(1.5rem,3.1vw,2.6rem);">
+                Former ISRO scientist guiding life decisions through Vedic Astrology, Nadi, Numerology, and Tantra Shastra
+              </span>
+            </h1>
+            <p class="lead" style="max-width: 680px;">
+              A rare blend of scientific precision and traditional wisdom for clear, practical, and spiritually grounded guidance.
+            </p>
+            <div class="button-row">
+              <a class="btn btn-primary" data-wa-consultation href="#" target="_blank" rel="noreferrer">
+                <i data-lucide="message-circle"></i>
+                Book on WhatsApp
+              </a>
+              <a class="btn btn-secondary" href="services/">
+                View Services
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-aside" data-reveal>
+            <article class="card card-pad heritage-panel navagraha-panel">
+              <p class="eyebrow" style="margin-bottom:10px;">Celestial alignment</p>
+              <h3 class="heritage-title">Planetary rhythm, interpreted with grounded clarity</h3>
+              <figure class="navagraha-stage" aria-hidden="true">
+                <canvas data-navagraha-canvas width="420" height="420"></canvas>
+              </figure>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section compact" style="padding-top:0;">
+        <div class="container">
+          <div class="stat-row" data-reveal>
+            <span class="chip stats-chip"><span data-bind="years-experience">14</span>+ years of guidance</span>
+            <span class="chip stats-chip">Classical Vedic tradition</span>
+            <span class="chip stats-chip" data-bind="languages">English • Tamil • Hindi</span>
+            <span class="chip stats-chip">Sessions by appointment only</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container grid-12" style="align-items:center;">
+          <div style="grid-column:span 6;" data-reveal>
+            <div class="section-head" style="margin-bottom:0;">
+              <span class="eyebrow">About</span>
+              <h2>A practice rooted in dharma, delivered with modern clarity</h2>
+              <p class="lead">Every consultation is designed to reduce confusion and help you make one clear next decision.</p>
+            </div>
+          </div>
+          <article class="card card-pad quote-block" style="grid-column:span 6;" data-reveal>
+            <p>
+              “Astrology should create steadiness, not fear. The goal is right timing, right effort, and inner alignment.”
+            </p>
+            <a href="about/" class="btn btn-subtle" style="margin-top:16px; width:fit-content;">
+              Read more
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Services</span>
+            <h2>Consultations designed for clarity and momentum</h2>
+            <p class="lead">Focused sessions for personal decisions, timing, and mentorship.</p>
+          </div>
+          <div id="home-services" class="preview-grid-2" aria-live="polite"></div>
+          <div style="margin-top:18px;">
+            <a href="services/" class="btn btn-secondary">View all services <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Courses</span>
+            <h2>Structured learning for sincere students</h2>
+            <p class="lead">Step-by-step courses that balance classical depth with applied chart practice.</p>
+          </div>
+          <div id="home-courses" class="preview-grid-3" aria-live="polite"></div>
+          <div style="margin-top:18px;">
+            <a href="courses/" class="btn btn-secondary">Explore all courses <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Tools</span>
+            <h2>Practical companions for planning and study</h2>
+            <p class="lead">Simple digital tools to reduce friction in daily practice and consultation prep.</p>
+          </div>
+          <div id="home-tools" class="preview-grid-3" aria-live="polite"></div>
+          <div style="margin-top:18px;">
+            <a href="tools/" class="btn btn-secondary">Browse tools <i data-lucide="arrow-right"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container" id="home-testimonials">
+          <div class="testimonial-head">
+            <span class="eyebrow" style="margin:0;">Student and client voices</span>
+            <div class="slider-controls">
+              <button class="slider-btn" type="button" data-slider-prev aria-label="Previous testimonial">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button class="slider-btn" type="button" data-slider-next aria-label="Next testimonial">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="slider-track" id="home-testimonials-track" data-slider-track aria-label="Testimonials carousel"></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="card card-pad section-cta" data-reveal>
+            <span class="eyebrow">Book a consultation</span>
+            <h2 style="color:var(--white); max-width:760px;">Start with one clear question. Leave with a grounded plan.</h2>
+            <p style="margin-top:10px; max-width:620px;">
+              Share your context on WhatsApp and receive available slots with simple next steps.
+            </p>
+            <a
+              class="btn btn-secondary"
+              style="width:fit-content; margin-top:18px; background:var(--white); color:var(--primary);"
+              data-wa-consultation
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <i data-lucide="message-circle"></i>
+              Book a consultation
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

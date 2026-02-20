@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Tantrik Numerology Dashboard",
+    "slug": "tantrik-numerology-dashboard",
+    "category": "Numerology",
+    "description": "Full-spectrum numerology dashboard covering Chaldean, Pythagorean, Lo Shu, Shiva Maya, compatibility, and timeline insights.",
+    "status": "Live",
+    "link": "tantriknumerlogy/",
+    "tags": ["Tantrik", "Numerology", "Dashboard"]
+  },
+  {
+    "title": "Pancha Pakshi Planner",
+    "slug": "pancha-pakshi-planner",
+    "category": "Timing",
+    "description": "A guided Pancha Pakshi planning utility for activity timing and daily decision support.",
+    "status": "Coming soon",
+    "link": "",
+    "tags": ["Pancha Pakshi", "Planning"]
+  },
+  {
+    "title": "Tarot Reflection Console",
+    "slug": "tarot-reflection-console",
+    "category": "Guidance",
+    "description": "A reflective tarot companion with spread prompts and interpretation notes for personal inquiry.",
+    "status": "Coming soon",
+    "link": "",
+    "tags": ["Tarot", "Reflection"]
+  }
+]

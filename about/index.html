@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>About | Astrofoxx</title>
+    <meta
+      name="description"
+      content="The story, philosophy, and lineage behind Umashankar's astrology guidance and teaching."
+    />
+    <meta property="og:title" content="About | Astrofoxx" />
+    <meta property="og:description" content="A disciplined, compassionate approach to classical astrology." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="about">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section compact" style="padding-top:58px;">
+        <div class="container grid-12" style="align-items:start;">
+          <div style="grid-column:span 7; display:grid; gap:18px;" data-reveal>
+            <span class="eyebrow">About the teacher</span>
+            <h1 style="font-size:clamp(1.9rem,4.2vw,3.7rem);">A disciplined, compassionate approach to classical astrology</h1>
+            <p class="lead">
+              Umashankar combines lineage-based Jyotish with practical modern interpretation for meaningful decisions.
+            </p>
+
+            <article class="card card-pad quote-block">
+              “Prediction without context creates anxiety. Guidance with context creates responsibility and peace.”
+            </article>
+          </div>
+
+          <aside class="card card-pad" style="grid-column:span 5;" data-reveal>
+            <span class="eyebrow">Credentials and lineage</span>
+            <ul class="credential-list" style="margin-top:8px;">
+              <li>Classical Jyotish training under senior mentors (placeholder lineage details).</li>
+              <li>Over a decade of consultation experience across India and global clients.</li>
+              <li>Mentored 400+ students through structured foundational and predictive courses.</li>
+              <li>Focus on ethical, non-fatalistic guidance and practical decision frameworks.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Journey</span>
+            <h2>Timeline of the practice</h2>
+            <p class="lead">
+              From intensive study to teaching and mentorship, with a strong emphasis on integrity and clear communication.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <article class="card card-tight" data-reveal>
+              <span class="year">2011</span>
+              <p class="muted">Began formal Jyotish training under traditional teachers in Chennai.</p>
+            </article>
+            <article class="card card-tight" data-reveal>
+              <span class="year">2015</span>
+              <p class="muted">Started private consultations focused on career and relationship guidance.</p>
+            </article>
+            <article class="card card-tight" data-reveal>
+              <span class="year">2018</span>
+              <p class="muted">Expanded into structured teaching for beginner and intermediate students.</p>
+            </article>
+            <article class="card card-tight" data-reveal>
+              <span class="year">2023</span>
+              <p class="muted">Launched mentorship format for practitioners and consultation ethics.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="container preview-grid-2">
+          <article class="card card-pad" data-reveal>
+            <h2 style="font-size:2rem;">Philosophy of guidance</h2>
+            <p class="muted" style="margin-top:10px;">
+              The practice follows a simple principle: interpretation must be truthful, useful, and compassionate. Every session
+              prioritizes the client’s agency.
+            </p>
+          </article>
+
+          <article class="card card-pad" data-reveal>
+            <h2 style="font-size:2rem;">What you can expect</h2>
+            <ul style="display:grid; gap:10px; margin-top:14px;">
+              <li class="list-icon"><i data-lucide="check"></i><span>Clarity on the immediate question and relevant timing windows.</span></li>
+              <li class="list-icon"><i data-lucide="check"></i><span>Practical next steps explained in plain language.</span></li>
+              <li class="list-icon"><i data-lucide="check"></i><span>Balanced remedies and reflective practices when suitable.</span></li>
+              <li class="list-icon"><i data-lucide="check"></i><span>Respectful communication and confidentiality.</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="card card-pad section-cta" data-reveal>
+            <h2 style="color:var(--white);">If this approach resonates, begin with a consultation.</h2>
+            <p style="margin-top:10px; max-width:620px;">
+              Share your context on WhatsApp and receive available slots with process details.
+            </p>
+            <a
+              class="btn btn-secondary"
+              style="width:fit-content; margin-top:18px; background:var(--white); color:var(--primary);"
+              data-wa-consultation
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <i data-lucide="message-circle"></i>
+              Book on WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

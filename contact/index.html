@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>Contact | Astrofoxx</title>
+    <meta
+      name="description"
+      content="Contact Umashankar on WhatsApp, phone, or email. Use the form to compose a structured WhatsApp inquiry."
+    />
+    <meta property="og:title" content="Contact | Astrofoxx" />
+    <meta property="og:description" content="Reach out via WhatsApp, call, email, or structured message form." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="contact">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section" style="padding-top:58px;">
+        <div class="container contact-grid">
+          <aside style="display:grid; gap:12px;" data-reveal>
+            <div class="section-head" style="margin-bottom:0;">
+              <span class="eyebrow">Contact</span>
+              <h1 style="font-size:clamp(1.9rem,3.8vw,3rem);">Reach out with your question</h1>
+              <p class="lead">WhatsApp is the fastest channel. You can also call or email during office hours.</p>
+            </div>
+
+            <a class="card card-tight contact-card-link" data-contact-wa href="#" target="_blank" rel="noreferrer">
+              <span style="display:flex; align-items:center; gap:8px; color:var(--primary); font-weight:600;">
+                <i data-lucide="message-circle"></i>
+                WhatsApp (Primary)
+              </span>
+              <span class="muted" style="font-size:0.85rem;">Open chat</span>
+            </a>
+
+            <a class="card card-tight contact-card-link" data-contact-call href="#">
+              <span style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                <i data-lucide="phone"></i>
+                Call
+              </span>
+              <span class="muted" style="font-size:0.85rem;" data-bind="call-number"></span>
+            </a>
+
+            <a class="card card-tight contact-card-link" data-contact-mail href="#">
+              <span style="display:flex; align-items:center; gap:8px; font-weight:600;">
+                <i data-lucide="mail"></i>
+                Email
+              </span>
+              <span class="muted" style="font-size:0.85rem;" data-bind="email"></span>
+            </a>
+
+            <div class="card card-tight muted">
+              <p data-bind="hours"></p>
+              <p style="margin-top:4px;" data-bind="city"></p>
+              <p style="margin-top:8px;">Average WhatsApp response: within <span data-bind="response-hours">4</span> hours.</p>
+            </div>
+          </aside>
+
+          <article class="card card-pad" data-reveal>
+            <h2 style="font-size:2rem;">Compose WhatsApp message</h2>
+            <p class="muted" style="margin-top:8px;">
+              Fill this form for a structured inquiry. On submit, WhatsApp opens with your prefilled message.
+            </p>
+
+            <form id="contact-form" style="display:grid; gap:14px; margin-top:16px;" novalidate>
+              <div>
+                <label for="name" style="display:block; font-weight:600; font-size:0.88rem; margin-bottom:6px;">Name</label>
+                <input class="input" type="text" id="name" name="name" autocomplete="name" required />
+                <p class="helper-text">Use your full name so we can schedule correctly.</p>
+              </div>
+
+              <div>
+                <label for="reason" style="display:block; font-weight:600; font-size:0.88rem; margin-bottom:6px;">Reason for reaching out</label>
+                <select class="select" id="reason" name="reason" required>
+                  <option value="">Select one</option>
+                  <option value="Birth chart consultation">Birth chart consultation</option>
+                  <option value="Muhurtha guidance">Muhurtha guidance</option>
+                  <option value="Course registration">Course registration</option>
+                  <option value="Mentorship inquiry">Mentorship inquiry</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="preferred-time" style="display:block; font-weight:600; font-size:0.88rem; margin-bottom:6px;">Preferred time slot</label>
+                <input
+                  class="input"
+                  type="text"
+                  id="preferred-time"
+                  name="preferredTime"
+                  placeholder="Example: Weekday evenings after 6 PM IST"
+                  required
+                />
+              </div>
+
+              <div>
+                <label for="notes" style="display:block; font-weight:600; font-size:0.88rem; margin-bottom:6px;">Notes (optional)</label>
+                <textarea
+                  class="textarea"
+                  id="notes"
+                  name="notes"
+                  rows="4"
+                  placeholder="Share context or specific question"
+                ></textarea>
+              </div>
+
+              <p id="contact-feedback" class="muted" aria-live="polite"></p>
+
+              <button type="submit" class="btn btn-primary">
+                <i data-lucide="message-circle"></i>
+                Open WhatsApp with message
+              </button>
+            </form>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

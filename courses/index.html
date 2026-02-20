@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var known = ["about", "services", "courses", "tools", "contact"];
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = "/";
+        if (location.hostname.endsWith("github.io") && parts.length && known.indexOf(parts[0]) === -1) {
+          base = "/" + parts[0] + "/";
+        }
+        window.__BASE_PATH__ = base === "/" ? "" : base.slice(0, -1);
+        var tag = document.createElement("base");
+        tag.href = base;
+        document.head.appendChild(tag);
+      })();
+    </script>
+    <title>Courses | Astrofoxx</title>
+    <meta
+      name="description"
+      content="Beginner to advanced Jyotish courses with structured curriculum, batch dates, and WhatsApp registration."
+    />
+    <meta property="og:title" content="Courses | Astrofoxx" />
+    <meta property="og:description" content="Structured learning tracks for beginner to advanced students." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="og-default.svg" />
+    <meta property="og:url" content="" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f3a30" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script defer src="assets/js/site.js"></script>
+  </head>
+  <body data-page="courses">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div data-site-header></div>
+
+    <main id="main-content">
+      <section class="section" style="padding-top:58px;">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">Courses</span>
+            <h1 style="font-size:clamp(1.9rem,4.1vw,3.4rem);">Learn Jyotish with structure, rigor, and mentorship</h1>
+            <p class="lead">Recorded course catalogue from ASTROFOXX COURSES 2026. Select any course to register on WhatsApp.</p>
+          </div>
+
+          <article class="card card-tight muted" style="margin-bottom:16px;" data-reveal>
+            Pricing note from brochure: fees are structured for existing Astrofoxx students; outside/foreign students add 35%.
+            Offer pricing is applicable up to 14 January 2026 and may be revised.
+          </article>
+
+          <div id="courses-grid" class="preview-grid-2" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="section alt">
+        <div class="container">
+          <div class="section-head">
+            <span class="eyebrow">How courses work</span>
+            <h2>Simple enrollment flow</h2>
+            <p class="lead">A three-step path from inquiry to active practice.</p>
+          </div>
+
+          <div class="preview-grid-3">
+            <article class="card card-pad" data-reveal>
+              <p class="chip" style="width:fit-content; margin-bottom:10px;">Step 1</p>
+              <h3>Apply on WhatsApp</h3>
+              <p class="muted" style="margin-top:8px;">
+                Share your background, current level, and learning goals for the course you selected.
+              </p>
+            </article>
+            <article class="card card-pad" data-reveal>
+              <p class="chip" style="width:fit-content; margin-bottom:10px;">Step 2</p>
+              <h3>Receive batch details</h3>
+              <p class="muted" style="margin-top:8px;">
+                You receive schedule, syllabus snapshot, and payment instructions for the upcoming cohort.
+              </p>
+            </article>
+            <article class="card card-pad" data-reveal>
+              <p class="chip" style="width:fit-content; margin-bottom:10px;">Step 3</p>
+              <h3>Join guided learning</h3>
+              <p class="muted" style="margin-top:8px;">
+                Attend live sessions, complete assignments, and review chart cases with direct feedback.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div data-site-footer></div>
+    <div data-mobile-actions></div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/about/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/services/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/courses/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/tools/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/tantriknumerlogy/</loc>
+  </url>
+  <url>
+    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/contact/</loc>
+  </url>
+</urlset>

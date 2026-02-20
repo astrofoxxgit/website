@@ -1,0 +1,98 @@
+[
+  {
+    "title": "Personal Birth Chart Consultation",
+    "slug": "birth-chart-consultation",
+    "category": "Consultation",
+    "duration": "75 minutes",
+    "mode": "Video / In-person",
+    "deliverable": "Recorded session + summary notes",
+    "startingPrice": "₹2,100",
+    "description": "A clear reading of your natal chart with practical timing guidance for career, relationships, and spiritual rhythm.",
+    "highlights": [
+      "Dasha and transit mapping for 12 months",
+      "Priority-based action plan",
+      "Remedy suggestions rooted in tradition"
+    ],
+    "featured": true
+  },
+  {
+    "title": "Annual Transit Planning",
+    "slug": "annual-transit-planning",
+    "category": "Consultation",
+    "duration": "60 minutes",
+    "mode": "Video",
+    "deliverable": "Yearly planner PDF",
+    "startingPrice": "₹1,800",
+    "description": "Strategic session focused on upcoming windows of growth, caution, and preparation over the next year.",
+    "highlights": [
+      "Month-wise opportunity windows",
+      "Risk and decision checkpoints",
+      "Custom planning sheet"
+    ],
+    "featured": true
+  },
+  {
+    "title": "Muhurtha for Marriage & New Beginnings",
+    "slug": "muhurtha-guidance",
+    "category": "Muhurtha",
+    "duration": "45 minutes",
+    "mode": "Video / WhatsApp",
+    "deliverable": "Shortlist of auspicious timings",
+    "startingPrice": "₹1,500",
+    "description": "Selection of aligned dates and timings for marriage, griha pravesh, business launch, and sacred milestones.",
+    "highlights": [
+      "Panchaanga + chart-based checks",
+      "3 to 5 muhurtha options",
+      "Simple do-and-don't notes"
+    ],
+    "featured": true
+  },
+  {
+    "title": "Numerology and Name Harmony Review",
+    "slug": "numerology-name-review",
+    "category": "Numerology",
+    "duration": "50 minutes",
+    "mode": "Video",
+    "deliverable": "Numerology report",
+    "startingPrice": "₹1,400",
+    "description": "Numerology mapping for life path and professional rhythm, including optional business or brand name resonance.",
+    "highlights": [
+      "Life cycle and personal year analysis",
+      "Name vibration review",
+      "Career timing insights"
+    ],
+    "featured": true
+  },
+  {
+    "title": "Mentorship for Astrology Students",
+    "slug": "student-mentorship",
+    "category": "Coaching",
+    "duration": "90 minutes",
+    "mode": "Video",
+    "deliverable": "Practice review + roadmap",
+    "startingPrice": "₹2,500",
+    "description": "Case-based mentorship to sharpen interpretation, synthesis, and consultation ethics for serious learners.",
+    "highlights": [
+      "Chart-reading drills",
+      "Feedback on real case notes",
+      "Q&A with structured progression"
+    ],
+    "featured": false
+  },
+  {
+    "title": "Relationship Compatibility Session",
+    "slug": "compatibility-session",
+    "category": "Consultation",
+    "duration": "70 minutes",
+    "mode": "Video / In-person",
+    "deliverable": "Compatibility matrix",
+    "startingPrice": "₹2,300",
+    "description": "Balanced compatibility analysis with emphasis on communication, values, and long-term partnership patterns.",
+    "highlights": [
+      "Guna and deeper chart matching",
+      "Strength and sensitivity map",
+      "Practical relationship guidance"
+    ],
+    "featured": false
+  }
+]
