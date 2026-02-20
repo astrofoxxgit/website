@@ -177,6 +177,14 @@ li {
   gap: var(--space-4);
 }
 
+.grid-12 > *,
+.preview-grid-2 > *,
+.preview-grid-3 > *,
+.footer-grid > *,
+.contact-grid > * {
+  min-width: 0;
+}
+
 .eyebrow {
   display: inline-block;
   margin-bottom: 12px;
@@ -350,11 +358,13 @@ li {
 .top-strip {
   border-bottom: 1px solid rgba(183, 142, 77, 0.26);
   background: linear-gradient(90deg, rgba(183, 142, 77, 0.1), rgba(255, 255, 255, 0.52), rgba(122, 64, 59, 0.08));
-  height: 34px;
+  min-height: 34px;
+  padding: 4px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  line-height: 1.25;
   color: var(--muted);
   font-size: 0.76rem;
 }
@@ -380,6 +390,12 @@ li {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
+}
+
+.brand > span:last-child {
+  display: grid;
+  min-width: 0;
 }
 
 .brand-badge {
@@ -402,11 +418,17 @@ li {
   font-family: "Cormorant Garamond", serif;
   font-size: 1.2rem;
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand-sub {
   font-size: 0.72rem;
   color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-links {
@@ -444,8 +466,8 @@ li {
 }
 
 .menu-toggle {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
   border: 1px solid rgba(183, 142, 77, 0.28);
   background: rgba(255, 255, 255, 0.94);
@@ -855,6 +877,7 @@ li {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  overflow-wrap: anywhere;
 }
 
 .footer {
@@ -940,6 +963,7 @@ li {
   align-items: center;
   justify-content: center;
   gap: 6px;
+  min-height: 48px;
   padding: 12px 8px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -989,6 +1013,10 @@ li {
     grid-template-columns: 1fr;
   }
 
+  .grid-12 > * {
+    grid-column: 1 / -1 !important;
+  }
+
   .hero-content,
   .hero-aside {
     grid-column: auto;
@@ -1018,6 +1046,11 @@ li {
     max-width: 420px;
     margin-inline: auto;
   }
+
+  .testimonial-head {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1031,6 +1064,25 @@ li {
 
   .section.compact {
     padding-block: 44px;
+  }
+
+  .top-strip {
+    font-size: 0.7rem;
+    padding-inline: 10px;
+  }
+
+  .site-nav {
+    min-height: 66px;
+    height: auto;
+    padding-block: 8px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
   }
 
   .btn {
@@ -1056,6 +1108,25 @@ li {
     min-width: 100%;
   }
 
+  .slider-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .contact-card-link {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .contact-card-link > span:last-child {
+    width: 100%;
+    text-align: left;
+  }
+
+  .section-cta .btn {
+    width: 100% !important;
+  }
+
   .mobile-actions {
     display: block;
   }
@@ -1064,6 +1135,22 @@ li {
     padding-bottom: 112px;
   }
 
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    gap: 10px;
+  }
+
+  .brand-badge {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand-mark {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
