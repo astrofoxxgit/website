@@ -863,22 +863,22 @@
     const statusClass = tool.status === "Live" ? "background:var(--primary-soft); color:var(--primary);" : "background:var(--accent-soft); color:var(--accent);";
     const tagList = (tool.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
     const actionLink = tool.link
-      ? `<a class="btn btn-secondary" href="${escapeHtml(tool.link)}" target="_blank" rel="noreferrer"><i data-lucide="arrow-up-right"></i>Open tool</a>`
-      : `<a class="btn btn-secondary" href="${createWhatsAppLink(`Namaste ${config.teacherName} ji, I would like access to the tool: ${tool.title}. Please share details.`)}" target="_blank" rel="noreferrer"><i data-lucide="message-circle"></i>Request access</a>`;
+      ? `<a class="btn btn-secondary tool-action" href="${escapeHtml(tool.link)}" target="_blank" rel="noreferrer"><i data-lucide="arrow-up-right"></i>Open tool</a>`
+      : `<a class="btn btn-secondary tool-action" href="${createWhatsAppLink(`Namaste ${config.teacherName} ji, I would like access to the tool: ${tool.title}. Please share details.`)}" target="_blank" rel="noreferrer"><i data-lucide="message-circle"></i>Request access</a>`;
 
     return `
-      <article class="card card-tight card-lift" data-tool-card data-category="${escapeHtml(tool.category)}" data-search-text="${escapeHtml(
+      <article class="card card-tight card-lift tool-card" data-tool-card data-category="${escapeHtml(tool.category)}" data-search-text="${escapeHtml(
         `${tool.title} ${tool.description} ${tool.category} ${(tool.tags || []).join(" ")}`.toLowerCase()
       )}" data-reveal>
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+        <div class="tool-head">
           <span class="chip">${escapeHtml(tool.category)}</span>
           <span class="tag" style="${statusClass}">${escapeHtml(tool.status)}</span>
         </div>
 
-        <h3 style="margin-top:10px;">${escapeHtml(tool.title)}</h3>
-        <p class="muted" style="font-size:0.9rem;">${escapeHtml(tool.description)}</p>
+        <h3 class="tool-title">${escapeHtml(tool.title)}</h3>
+        <p class="muted tool-copy">${escapeHtml(tool.description)}</p>
 
-        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:4px;">
+        <div class="tool-tags">
           ${tagList}
         </div>
 

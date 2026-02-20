@@ -629,6 +629,42 @@ li {
   gap: 10px;
 }
 
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 100%;
+}
+
+.tool-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.tool-title {
+  margin-top: 2px;
+}
+
+.tool-copy {
+  font-size: 0.94rem;
+  line-height: 1.52;
+}
+
+.tool-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.tool-action {
+  margin-top: auto;
+  min-height: 48px;
+  width: 100%;
+}
+
 .meta-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
