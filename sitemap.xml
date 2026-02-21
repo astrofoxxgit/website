@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/</loc>
+    <loc>https://www.astrofoxx.in/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/about/</loc>
+    <loc>https://www.astrofoxx.in/about/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/services/</loc>
+    <loc>https://www.astrofoxx.in/services/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/courses/</loc>
+    <loc>https://www.astrofoxx.in/courses/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/tools/</loc>
+    <loc>https://www.astrofoxx.in/tools/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/tantriknumerlogy/</loc>
+    <loc>https://www.astrofoxx.in/tantriknumerlogy/</loc>
   </url>
   <url>
-    <loc>https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/contact/</loc>
+    <loc>https://www.astrofoxx.in/contact/</loc>
   </url>
 </urlset>

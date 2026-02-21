@@ -1,8 +1,27 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="1200" height="630" fill="#F8F4EE"/>
-  <circle cx="968" cy="124" r="210" fill="#254336" fill-opacity="0.12"/>
-  <circle cx="1045" cy="102" r="120" fill="#7C4C46" fill-opacity="0.12"/>
-  <circle cx="176" cy="520" r="170" fill="#254336" fill-opacity="0.1"/>
+  <rect width="1200" height="630" fill="#F8F1E4" />
+  <circle cx="968" cy="124" r="210" fill="#1F3A30" fill-opacity="0.12" />
+  <circle cx="1045" cy="102" r="120" fill="#7A403B" fill-opacity="0.12" />
+  <circle cx="176" cy="520" r="170" fill="#1F3A30" fill-opacity="0.1" />
+
+  <rect x="760" y="140" width="300" height="300" rx="64" fill="#1F3A30" />
+  <path
+    d="M830 250 865 192 903 236h34l38-44 35 58-20 83-70 50-70-50-20-83Z"
+    stroke="#F8F1E4"
+    stroke-width="8"
+    stroke-linejoin="round"
+  />
+  <circle cx="930" cy="287" r="9" fill="#F8F1E4" />
+  <circle cx="980" cy="287" r="9" fill="#F8F1E4" />
+  <path d="M955 313 944 327h22L955 313Z" fill="#F8F1E4" />
+  <path
+    d="M955 327v16m0 0c-7 0-14-3-19-8m19 8c7 0 14-3 19-8"
+    stroke="#F8F1E4"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
   <text x="110" y="280" fill="#171512" font-family="Cormorant Garamond, serif" font-size="74" font-weight="600">Astrofoxx</text>
-  <text x="112" y="345" fill="#5B554C" font-family="Inter, sans-serif" font-size="30">Vedic Astrology, Courses, and Guidance by Umashankar</text>
+  <text x="112" y="345" fill="#5F5447" font-family="Inter, sans-serif" font-size="30">Vedic Astrology, Courses, and Guidance</text>
 </svg>

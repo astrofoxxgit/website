@@ -7,7 +7,7 @@
     tagline: "Vedic Astrology & Teaching",
     description:
       "Classical Vedic astrology consultations, muhurtha guidance, and structured courses led by Umashankar.",
-    siteUrl: "https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/",
+    siteUrl: "https://www.astrofoxx.in/",
     whatsappPhone: "918073527454",
     callNumber: "+91 80735 27454",
     email: "u.umashankar1@gmail.com",
@@ -355,7 +355,12 @@
 
     const ogImage = document.querySelector('meta[property="og:image"]');
     if (ogImage instanceof HTMLMetaElement && !ogImage.content) {
-      ogImage.content = "og-default.svg";
+      ogImage.content = "og-default.png";
+    }
+
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (twitterImage instanceof HTMLMetaElement && !twitterImage.content) {
+      twitterImage.content = ogImage instanceof HTMLMetaElement && ogImage.content ? ogImage.content : "og-default.png";
     }
 
     if (!document.querySelector("script[data-schema='global']")) {
@@ -374,7 +379,7 @@
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: config.siteName,
-          image: "og-default.svg",
+          image: "og-default.png",
           url: config.siteUrl,
           telephone: config.callNumber,
           email: config.email,

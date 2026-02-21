@@ -104,15 +104,15 @@ GitHub setup:
 2. Source: `GitHub Actions`
 3. Push to `main`
 
-## SEO placeholders
+## SEO URLs
 
-Update these before production:
+Current production domain is already set to `https://www.astrofoxx.in` in:
 
 - `robots.txt` sitemap URL
 - `sitemap.xml` `<loc>` URLs
 - `assets/js/site.js` -> `siteUrl`
 
-Replace `YOUR_GITHUB_USERNAME` and `REPO_NAME`.
+If domain changes later, update those three places.
 
 ## Local preview
 

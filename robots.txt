@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://YOUR_GITHUB_USERNAME.github.io/REPO_NAME/sitemap.xml
+Sitemap: https://www.astrofoxx.in/sitemap.xml
