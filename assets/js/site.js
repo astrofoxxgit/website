@@ -820,56 +820,15 @@
       .join("");
   }
 
-  function renderServiceCard(service, options) {
-    const expanded = options && options.expanded;
-    const detailsId = `service-details-${escapeHtml(service.slug)}`;
-    const highlights = (service.highlights || []).slice(0, 3).map((item) => `<li class="list-icon"><i data-lucide="circle"></i><span>${escapeHtml(item)}</span></li>`).join("");
-
+  function renderServiceCard(service) {
     return `
       <article class="card card-pad card-lift service-meta" data-service-card data-category="${escapeHtml(service.category)}" data-reveal>
-        <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
-          <div>
-            <span class="chip">${escapeHtml(service.category)}</span>
-            <h3 style="margin-top:10px;">${escapeHtml(service.title)}</h3>
-          </div>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+          <h3 style="margin:0;">${escapeHtml(service.title)}</h3>
           <span class="service-price">${escapeHtml(service.startingPrice)}</span>
         </div>
 
         <p class="muted">${escapeHtml(service.description)}</p>
-
-        <div class="meta-grid">
-          <div>
-            <span class="label">Duration</span>
-            <span class="value">${escapeHtml(service.duration)}</span>
-          </div>
-          <div>
-            <span class="label">Mode</span>
-            <span class="value">${escapeHtml(service.mode)}</span>
-          </div>
-          <div>
-            <span class="label">Deliverable</span>
-            <span class="value">${escapeHtml(service.deliverable)}</span>
-          </div>
-        </div>
-
-        <ul style="display:grid; gap:7px; font-size:0.92rem;">
-          ${highlights}
-        </ul>
-
-        <details class="accordion-item" ${expanded ? "open" : ""} id="${detailsId}">
-          <summary>
-            Session details
-            <i data-lucide="chevron-down"></i>
-          </summary>
-          <div class="content">
-            This service includes guided interpretation and contextual recommendations. Slots are by appointment only.
-          </div>
-        </details>
-
-        <a class="btn btn-primary" href="${createWhatsAppLink(serviceMessageTemplate(service.title))}" target="_blank" rel="noreferrer" aria-label="Book ${escapeHtml(service.title)} on WhatsApp">
-          <i data-lucide="message-circle"></i>
-          Book on WhatsApp
-        </a>
       </article>
     `;
   }
@@ -1028,7 +987,7 @@
       return;
     }
 
-    grid.innerHTML = services.map((item) => renderServiceCard(item, { expanded: false })).join("");
+    grid.innerHTML = services.map((item) => renderServiceCard(item)).join("");
 
     const categories = ["All"].concat(
       Array.from(
