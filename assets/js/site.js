@@ -737,6 +737,19 @@
     return normalized === "true" || normalized === "yes" || normalized === "1";
   }
 
+  async function fetchServicesData() {
+    const rows = await fetchCsv("data/services.csv");
+    return rows
+      .map((row) => ({
+        title: row.title || "",
+        description: row.description || "",
+        price: row.price || "",
+        category: row.category || "General",
+        featured: parseBoolean(row.featured)
+      }))
+      .filter((row) => row.title || row.description || row.price);
+  }
+
   async function fetchCoursesData() {
     const rows = await fetchCsv("data/courses.csv");
     return rows
@@ -839,7 +852,7 @@
       <article class="card card-pad card-lift service-meta" data-service-card data-category="${escapeHtml(service.category)}" data-reveal>
         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
           <h3 style="margin:0;">${escapeHtml(service.title)}</h3>
-          <span class="service-price">${escapeHtml(service.startingPrice)}</span>
+          <span class="service-price">${escapeHtml(service.price)}</span>
         </div>
 
         <p class="muted">${escapeHtml(service.description)}</p>
@@ -942,7 +955,7 @@
     }
 
     const [services, courses, tools, testimonials] = await Promise.all([
-      fetchJson("data/services.json"),
+      fetchServicesData(),
       fetchCoursesData(),
       fetchJson("data/tools.json"),
       fetchJson("data/testimonials.json")
@@ -992,7 +1005,7 @@
       return;
     }
 
-    const services = await fetchJson("data/services.json");
+    const services = await fetchServicesData();
     const grid = document.querySelector("#services-grid");
     const filters = document.querySelector("#services-filters");
     const empty = document.querySelector("#services-empty");

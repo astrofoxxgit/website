@@ -91,6 +91,8 @@ const NAKSHATRA_PADA_BY_SIGN = {
 };
 
 const DUSTHANA_HOUSES = new Set([6, 8, 12]);
+const NAME_CHART_MAX_CYCLES = 4;
+const NAME_CHART_DEFAULT_CYCLE = 1;
 const NAME_CHART_HOUSE_GROUPS = [
   { key: "best", label: "Best Houses (1, 5, 9)", houses: [1, 5, 9] },
   { key: "next", label: "Next Best Houses (4, 7, 10)", houses: [4, 7, 10] },
@@ -209,6 +211,7 @@ const LAGNA_METHOD_LABELS = {
 
 const PADA_SIGN_MAP = buildPadaSignMap();
 let identifierHelperSeq = 0;
+let currentNameChartCycles = null;
 
 const el = {
   form: document.getElementById("calcForm"),
@@ -241,6 +244,8 @@ const el = {
   nakshatraHouseTableBody: document.querySelector("#nakshatraHouseTable tbody"),
   coreBreakdown: document.getElementById("coreBreakdown"),
   pyramidChart: document.getElementById("pyramidChart"),
+  nameCycleInput: document.getElementById("nameCycleInput"),
+  nameCycleValue: document.getElementById("nameCycleValue"),
   nameChartGrid: document.getElementById("nameChartGrid"),
   nameHouseStrength: document.getElementById("nameHouseStrength"),
   loShuGrid: document.getElementById("loShuGrid"),
@@ -270,6 +275,14 @@ function init() {
   if (el.lagnaMethod) {
     el.lagnaMethod.value = LAGNA_METHOD_DEFAULT;
   }
+  if (el.nameCycleInput) {
+    el.nameCycleInput.min = String(NAME_CHART_DEFAULT_CYCLE);
+    el.nameCycleInput.max = String(NAME_CHART_MAX_CYCLES);
+    el.nameCycleInput.step = "1";
+    el.nameCycleInput.value = String(NAME_CHART_DEFAULT_CYCLE);
+    el.nameCycleInput.addEventListener("input", handleNameCycleInput);
+  }
+  setNameCycleDisplay(NAME_CHART_DEFAULT_CYCLE);
   el.form.addEventListener("submit", handleSubmit);
   el.reset.addEventListener("click", handleReset);
   if (el.exportPdfBtn) {
@@ -313,8 +326,20 @@ function handleSubmit(event) {
   const chDestinyData = destinyNumberChaldeanDetail(dob, true);
   const chDestiny = chDestinyData.value;
   const lagnaDestinyData = destinyNumberChaldeanLagnaDetail(dob, selectedLagnaMethod, true);
-  const chart = nameChartTrace(rawName);
-  const signLetters = buildNameChartSignContents(chart.trace);
+  currentNameChartCycles = buildNameChartCycles(rawName, NAME_CHART_MAX_CYCLES);
+  const selectedCycleNumber = getSelectedNameCycle();
+  setNameCycleDisplay(selectedCycleNumber);
+  const selectedNameCycle = currentNameChartCycles.cycles[selectedCycleNumber - 1]
+    || currentNameChartCycles.cycles[0]
+    || {
+      cycle: NAME_CHART_DEFAULT_CYCLE,
+      startSignIndex: 0,
+      startSign: ZODIAC_SIGNS[0],
+      lastSignIndex: 0,
+      lastSign: ZODIAC_SIGNS[0],
+      trace: []
+    };
+  const signLetters = buildNameChartSignContents(selectedNameCycle.trace);
   const yearMap = buildNameYearMapping(rawName, dob, endDate);
   const loShuCounts = loshuCountsFromDob(dob);
   const loShuGrid = loshuGridFromCounts(loShuCounts);
@@ -346,11 +371,13 @@ function handleSubmit(event) {
   });
   const nakshatraSummary = renderNakshatraHouseSection(lagnaDestinyData, analysisReports);
   renderAttributeTable(attributeRows);
-  renderInsightCards({
-    analysisReports,
-    attributeRows,
-    nakshatraSummary
-  });
+  // Report Snapshot is temporarily hidden from UI.
+  // Keep this code path for future re-enable.
+  // renderInsightCards({
+  //   analysisReports,
+  //   attributeRows,
+  //   nakshatraSummary
+  // });
 
   renderCoreBreakdown({
     nameData,
@@ -366,7 +393,7 @@ function handleSubmit(event) {
 
   renderPyramid(pyramid);
   renderSouthIndianChart(signLetters);
-  renderNameHouseStrength(chart.trace);
+  renderNameHouseStrength(selectedNameCycle, selectedCycleNumber);
   renderMatrix(el.loShuGrid, loShuGrid, (value) => value || ".");
   renderLoShuMeta(loShuCounts, loShuMissing);
   renderMatrix(el.shivaMayaGrid, shivaMaya, (value) => String(value));
@@ -374,7 +401,7 @@ function handleSubmit(event) {
   renderYearTable(yearMap.rows);
   renderTrace({
     nameData,
-    trace: chart.trace,
+    trace: selectedNameCycle.trace,
     nameTotals,
     destiny,
     ruling,
@@ -397,9 +424,11 @@ function handleSubmit(event) {
 function handleReset() {
   el.form.reset();
   el.endDate.value = formatIsoDate(new Date());
+  currentNameChartCycles = null;
   if (el.lagnaMethod) {
     el.lagnaMethod.value = LAGNA_METHOD_DEFAULT;
   }
+  setNameCycleDisplay(NAME_CHART_DEFAULT_CYCLE);
   el.dashboard.hidden = true;
   el.summaryGrid.innerHTML = "";
   if (el.insightSection) {
@@ -517,6 +546,55 @@ function getLagnaMethodSelection() {
   }
   const selected = el.lagnaMethod.value;
   return LAGNA_METHOD_LABELS[selected] ? selected : LAGNA_METHOD_DEFAULT;
+}
+
+function normalizeNameCycle(value) {
+  const numeric = Math.trunc(Number(value));
+  if (!Number.isFinite(numeric)) {
+    return NAME_CHART_DEFAULT_CYCLE;
+  }
+  return Math.min(NAME_CHART_MAX_CYCLES, Math.max(NAME_CHART_DEFAULT_CYCLE, numeric));
+}
+
+function getSelectedNameCycle() {
+  if (!el.nameCycleInput) {
+    return NAME_CHART_DEFAULT_CYCLE;
+  }
+  return normalizeNameCycle(el.nameCycleInput.value);
+}
+
+function setNameCycleDisplay(cycle) {
+  const normalized = normalizeNameCycle(cycle);
+  if (el.nameCycleInput) {
+    el.nameCycleInput.value = String(normalized);
+  }
+  if (el.nameCycleValue) {
+    el.nameCycleValue.textContent = `Cycle ${normalized}/${NAME_CHART_MAX_CYCLES}`;
+  }
+}
+
+function applyNameChartCycle(cycleNumber) {
+  if (!currentNameChartCycles || !currentNameChartCycles.cycles.length) {
+    return;
+  }
+
+  const normalized = normalizeNameCycle(cycleNumber);
+  const selectedCycle = currentNameChartCycles.cycles[normalized - 1] || currentNameChartCycles.cycles[0];
+  if (!selectedCycle) {
+    return;
+  }
+
+  const signLetters = buildNameChartSignContents(selectedCycle.trace);
+  renderSouthIndianChart(signLetters);
+  renderNameHouseStrength(selectedCycle, normalized);
+  renderNamePlacementTrace(selectedCycle.trace);
+  setNameCycleDisplay(normalized);
+}
+
+function handleNameCycleInput() {
+  const selected = getSelectedNameCycle();
+  setNameCycleDisplay(selected);
+  applyNameChartCycle(selected);
 }
 
 function removeLegacyAttributeCards() {
@@ -1415,28 +1493,58 @@ function pythValue(letter) {
   return PYTHAGOREAN[letter];
 }
 
-function nameChartTrace(name) {
+function nameChartTrace(name, startSignIndex = 0) {
   const clean = cleanName(name);
   const trace = [];
-  let position = 0;
+  const normalizedStartSignIndex = ((Math.trunc(Number(startSignIndex)) % 12) + 12) % 12;
+  let position = normalizedStartSignIndex;
 
   [...clean].forEach((letter, index) => {
     const value = pythValue(letter);
     if (index === 0) {
-      position = (0 + (value - 1)) % 12;
+      position = (normalizedStartSignIndex + (value - 1)) % 12;
     } else {
       position = (position + (value - 1)) % 12;
     }
     trace.push({
       letter,
       value,
-      house: position + 1,
+      house: ((position - normalizedStartSignIndex + 12) % 12) + 1,
+      ariesHouse: position + 1,
       signIndex: position,
       sign: ZODIAC_SIGNS[position]
     });
   });
 
-  return { clean, trace };
+  const lastSignIndex = trace.length ? trace[trace.length - 1].signIndex : normalizedStartSignIndex;
+  return {
+    clean,
+    startSignIndex: normalizedStartSignIndex,
+    startSign: ZODIAC_SIGNS[normalizedStartSignIndex],
+    lastSignIndex,
+    lastSign: ZODIAC_SIGNS[lastSignIndex],
+    trace
+  };
+}
+
+function buildNameChartCycles(name, cycleCount = NAME_CHART_MAX_CYCLES) {
+  const clean = cleanName(name);
+  if (!clean) {
+    return { clean, cycles: [] };
+  }
+
+  const cycles = [];
+  let cycleStartSignIndex = 0;
+  for (let cycle = 1; cycle <= cycleCount; cycle += 1) {
+    const cycleTrace = nameChartTrace(clean, cycleStartSignIndex);
+    cycles.push({
+      cycle,
+      ...cycleTrace
+    });
+    cycleStartSignIndex = cycleTrace.lastSignIndex;
+  }
+
+  return { clean, cycles };
 }
 
 function buildNameChartSignContents(trace) {
@@ -1848,7 +1956,8 @@ function formatPercent(value) {
 function nameChartHouseDistribution(trace) {
   const houseCounts = Array.from({ length: 12 }, () => 0);
   trace.forEach((step) => {
-    houseCounts[step.signIndex] += 1;
+    const house = step.ariesHouse !== undefined ? step.ariesHouse : (step.signIndex + 1);
+    houseCounts[house - 1] += 1;
   });
 
   const totalLetters = trace.length;
@@ -1870,17 +1979,20 @@ function nameChartHouseDistribution(trace) {
   };
 }
 
-function renderNameHouseStrength(trace) {
+function renderNameHouseStrength(cycleData, cycleNumber = NAME_CHART_DEFAULT_CYCLE) {
   if (!el.nameHouseStrength) {
     return;
   }
 
+  const trace = cycleData && cycleData.trace ? cycleData.trace : [];
   if (!trace.length) {
     el.nameHouseStrength.innerHTML = "<p>No name chart placements available.</p>";
     return;
   }
 
   const distribution = nameChartHouseDistribution(trace);
+  const cycleLagna = cycleData && cycleData.startSign ? cycleData.startSign : ZODIAC_SIGNS[0];
+  const cycleEnd = cycleData && cycleData.lastSign ? cycleData.lastSign : ZODIAC_SIGNS[0];
   const houseBits = distribution.houseCounts
     .map((count, index) => (count > 0 ? `H${index + 1}:${count}` : ""))
     .filter(Boolean)
@@ -1890,6 +2002,8 @@ function renderNameHouseStrength(trace) {
     .join("");
 
   el.nameHouseStrength.innerHTML = `
+    <p><strong>Selected cycle:</strong> ${cycleNumber}/${NAME_CHART_MAX_CYCLES} | Start lagna ${cycleLagna} | End lagna ${cycleEnd}</p>
+    <p><strong>Percentage reference:</strong> Aries houses are fixed for all cycles.</p>
     <p><strong>Aries lagna name chart:</strong> ${distribution.totalLetters} letters analyzed.</p>
     ${groupLines}
     <p><strong>House occupancy:</strong> ${houseBits || "None"}</p>
@@ -1963,6 +2077,20 @@ function renderYearTable(rows) {
   });
 }
 
+function renderNamePlacementTrace(trace) {
+  el.nameTrace.innerHTML = "";
+  if (!trace.length) {
+    el.nameTrace.innerHTML = "<li>No trace data available.</li>";
+    return;
+  }
+
+  trace.forEach((step) => {
+    const item = document.createElement("li");
+    item.textContent = `${step.letter}(${step.value}) -> H${step.house} ${step.sign}`;
+    el.nameTrace.appendChild(item);
+  });
+}
+
 function renderTrace(data) {
   const {
     nameData,
@@ -1987,16 +2115,7 @@ function renderTrace(data) {
   const total = nameData.nums.reduce((sum, value) => sum + value, 0);
   el.nameValues.textContent = `${equation} = ${total}`;
 
-  el.nameTrace.innerHTML = "";
-  if (!trace.length) {
-    el.nameTrace.innerHTML = "<li>No trace data available.</li>";
-  } else {
-    trace.forEach((step) => {
-      const item = document.createElement("li");
-      item.textContent = `${step.letter}(${step.value}) -> H${step.house} ${step.sign}`;
-      el.nameTrace.appendChild(item);
-    });
-  }
+  renderNamePlacementTrace(trace);
 
   if (el.destinyValues && destiny) {
     el.destinyValues.textContent = `Pythagorean destiny: ${destiny.digits.join(" + ")} = ${destiny.total} -> ${destiny.value}`;

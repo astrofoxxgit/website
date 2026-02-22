@@ -127,7 +127,7 @@
 
     <section id="summaryGrid" class="summary-grid"></section>
 
-    <section id="insightSection" class="panel insight-panel" hidden>
+    <section id="insightSection" class="panel insight-panel" hidden style="display:none;">
       <h2 class="section-title">Report Snapshot</h2>
       <p class="panel-copy">
         Start here for the executive view. This summarizes risk signals, lagna context, and immediate remedy focus before detailed analysis.
@@ -137,7 +137,7 @@
 
     <nav class="report-nav" aria-label="Report Sections">
       <a href="#summaryGrid">Top Numbers</a>
-      <a href="#insightSection">Snapshot</a>
+      <!-- <a href="#insightSection">Snapshot</a> -->
       <a href="#optionalReportSection">Analysis</a>
       <a href="#nakshatraSection">House Grid</a>
       <a href="#compatibilitySection">Compatibility</a>
@@ -230,7 +230,12 @@
 
       <article class="panel">
         <h2 class="section-title">South Indian Sign Matrix</h2>
-        <p class="panel-copy">Pythagorean progression mapped across fixed zodiac positions with Aries as the reference lagna.</p>
+        <p class="panel-copy">Pythagorean progression mapped across fixed zodiac positions with cycle-based lagna progression.</p>
+        <div class="name-cycle-control">
+          <label for="nameCycleInput">Cycle Knob</label>
+          <input id="nameCycleInput" type="range" min="1" max="4" step="1" value="1" />
+          <span id="nameCycleValue" class="name-cycle-value">Cycle 1/4</span>
+        </div>
         <div id="nameChartGrid" class="south-grid"></div>
         <div id="nameHouseStrength" class="meta-list"></div>
       </article>
@@ -310,6 +315,6 @@
     Powered by Uma Shankar's Tantrik Numerology engine.
   </footer>
 
-  <script src="app.js?v=20260222-1800"></script>
+  <script src="app.js?v=20260222-1930"></script>
 </body>
 </html>
