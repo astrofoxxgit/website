@@ -1357,14 +1357,18 @@ function destinyNumberChaldeanLagnaDetail(dob, method = LAGNA_METHOD_DEFAULT, ke
   const normalizedMethod = LAGNA_METHOD_LABELS[method] ? method : LAGNA_METHOD_DEFAULT;
   const token = buildLagnaDateToken(dob, normalizedMethod);
   const values = chaldeanValuesFromDateToken(token);
-  const total = values.reduce((sum, value) => sum + value, 0);
+  const rows = pyramidRows(values, false);
+  const pyramidNumber = rows.length >= 2 && rows[rows.length - 2].length >= 2
+    ? Number(`${rows[rows.length - 2][0]}${rows[rows.length - 2][1]}`)
+    : (rows.length ? rows[rows.length - 1][0] : 0);
   return {
     method: normalizedMethod,
     methodLabel: lagnaMethodLabel(normalizedMethod),
     token,
     values,
-    total,
-    value: reduceToDigit(total, keepMasters)
+    pyramidRows: rows,
+    total: pyramidNumber,
+    value: reduceToDigit(pyramidNumber, keepMasters)
   };
 }
 
@@ -1937,8 +1941,10 @@ function renderTrace(data) {
     const lagnaDisplay = nakshatraSummary && nakshatraSummary.lagnaValue !== null
       ? (nakshatraSummary.lagnaAdjusted ? `${lagnaDestinyData.total} -> ${nakshatraSummary.lagnaValue}` : `${nakshatraSummary.lagnaValue}`)
       : `${lagnaDestinyData.total}`;
-    const lagnaMath = lagnaDestinyData.values.length ? lagnaDestinyData.values.join(" + ") : "-";
-    el.lagnaDestinyValues.textContent = `Selected lagna method ${lagnaDestinyData.methodLabel} (${lagnaDestinyData.token}): ${lagnaMath} = ${lagnaDisplay}`;
+    const lagnaPyramid = lagnaDestinyData.pyramidRows && lagnaDestinyData.pyramidRows.length
+      ? lagnaDestinyData.pyramidRows.map((row) => row.join("")).join(" / ")
+      : "-";
+    el.lagnaDestinyValues.textContent = `Selected lagna method ${lagnaDestinyData.methodLabel} (${lagnaDestinyData.token}): pyramid ${lagnaPyramid} = ${lagnaDisplay}`;
   }
 
   if (el.coreAuditTrail) {
