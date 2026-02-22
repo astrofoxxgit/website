@@ -91,6 +91,12 @@ const NAKSHATRA_PADA_BY_SIGN = {
 };
 
 const DUSTHANA_HOUSES = new Set([6, 8, 12]);
+const NAME_CHART_HOUSE_GROUPS = [
+  { key: "best", label: "Best Houses (1, 5, 9)", houses: [1, 5, 9] },
+  { key: "next", label: "Next Best Houses (4, 7, 10)", houses: [4, 7, 10] },
+  { key: "ok", label: "OK Houses (2, 3, 11)", houses: [2, 3, 11] },
+  { key: "bad", label: "Bad Houses (6, 8, 12)", houses: [6, 8, 12] }
+];
 
 const NUMBER_ATTRIBUTES = {
   1: {
@@ -236,6 +242,7 @@ const el = {
   coreBreakdown: document.getElementById("coreBreakdown"),
   pyramidChart: document.getElementById("pyramidChart"),
   nameChartGrid: document.getElementById("nameChartGrid"),
+  nameHouseStrength: document.getElementById("nameHouseStrength"),
   loShuGrid: document.getElementById("loShuGrid"),
   loShuMeta: document.getElementById("loShuMeta"),
   shivaMayaGrid: document.getElementById("shivaMayaGrid"),
@@ -359,6 +366,7 @@ function handleSubmit(event) {
 
   renderPyramid(pyramid);
   renderSouthIndianChart(signLetters);
+  renderNameHouseStrength(chart.trace);
   renderMatrix(el.loShuGrid, loShuGrid, (value) => value || ".");
   renderLoShuMeta(loShuCounts, loShuMissing);
   renderMatrix(el.shivaMayaGrid, shivaMaya, (value) => String(value));
@@ -425,6 +433,9 @@ function handleReset() {
   el.coreBreakdown.innerHTML = "";
   el.pyramidChart.innerHTML = "";
   el.nameChartGrid.innerHTML = "";
+  if (el.nameHouseStrength) {
+    el.nameHouseStrength.innerHTML = "";
+  }
   el.loShuGrid.innerHTML = "";
   el.loShuMeta.innerHTML = "";
   el.shivaMayaGrid.innerHTML = "";
@@ -1419,6 +1430,7 @@ function nameChartTrace(name) {
     trace.push({
       letter,
       value,
+      house: position + 1,
       signIndex: position,
       sign: ZODIAC_SIGNS[position]
     });
@@ -1825,6 +1837,65 @@ function renderSouthIndianChart(signLetters) {
   });
 }
 
+function formatPercent(value) {
+  if (!Number.isFinite(value)) {
+    return "0%";
+  }
+  const rounded = Math.round(value * 10) / 10;
+  return Number.isInteger(rounded) ? `${rounded}%` : `${rounded.toFixed(1)}%`;
+}
+
+function nameChartHouseDistribution(trace) {
+  const houseCounts = Array.from({ length: 12 }, () => 0);
+  trace.forEach((step) => {
+    houseCounts[step.signIndex] += 1;
+  });
+
+  const totalLetters = trace.length;
+  const groups = NAME_CHART_HOUSE_GROUPS.map((group) => {
+    const count = group.houses.reduce((sum, house) => sum + houseCounts[house - 1], 0);
+    const percentage = totalLetters > 0 ? (count / totalLetters) * 100 : 0;
+    return {
+      label: group.label,
+      houses: group.houses,
+      count,
+      percentage
+    };
+  });
+
+  return {
+    totalLetters,
+    houseCounts,
+    groups
+  };
+}
+
+function renderNameHouseStrength(trace) {
+  if (!el.nameHouseStrength) {
+    return;
+  }
+
+  if (!trace.length) {
+    el.nameHouseStrength.innerHTML = "<p>No name chart placements available.</p>";
+    return;
+  }
+
+  const distribution = nameChartHouseDistribution(trace);
+  const houseBits = distribution.houseCounts
+    .map((count, index) => (count > 0 ? `H${index + 1}:${count}` : ""))
+    .filter(Boolean)
+    .join(", ");
+  const groupLines = distribution.groups
+    .map((group) => `<p><strong>${group.label}:</strong> ${formatPercent(group.percentage)} (${group.count}/${distribution.totalLetters})</p>`)
+    .join("");
+
+  el.nameHouseStrength.innerHTML = `
+    <p><strong>Aries lagna name chart:</strong> ${distribution.totalLetters} letters analyzed.</p>
+    ${groupLines}
+    <p><strong>House occupancy:</strong> ${houseBits || "None"}</p>
+  `;
+}
+
 function renderMatrix(container, grid, formatter) {
   container.innerHTML = "";
   grid.flat().forEach((value) => {
@@ -1922,7 +1993,7 @@ function renderTrace(data) {
   } else {
     trace.forEach((step) => {
       const item = document.createElement("li");
-      item.textContent = `${step.letter}(${step.value}) -> ${step.sign}`;
+      item.textContent = `${step.letter}(${step.value}) -> H${step.house} ${step.sign}`;
       el.nameTrace.appendChild(item);
     });
   }

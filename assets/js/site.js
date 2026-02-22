@@ -749,32 +749,39 @@
       .filter((row) => row.title || row.description || row.price);
   }
 
-  async function fetchSiteContentData() {
-    const rows = await fetchCsv("data/site_content.csv");
+  async function fetchAboutTimelineData() {
+    const rows = await fetchCsv("data/about_timeline.csv");
     return rows
-      .map((row) => {
-        const order = Number(row.order);
-        return {
-          section: String(row.section || "").trim().toLowerCase(),
-          order: Number.isFinite(order) ? order : 0,
-          badge: row.badge || "",
-          title: row.title || "",
-          description: row.description || ""
-        };
-      })
-      .filter((row) => row.section);
+      .map((row) => ({
+        year: row.year || "",
+        description: row.description || ""
+      }))
+      .filter((row) => row.year || row.description);
   }
 
-  function contentRowsBySection(rows, section) {
-    const key = String(section || "").trim().toLowerCase();
+  async function fetchCoursesPricingNoteData() {
+    const rows = await fetchCsv("data/courses_pricing_note.csv");
     return rows
-      .filter((row) => row.section === key)
-      .sort((a, b) => a.order - b.order);
+      .map((row) => ({
+        note: row.note || ""
+      }))
+      .filter((row) => row.note);
+  }
+
+  async function fetchCoursesFlowData() {
+    const rows = await fetchCsv("data/courses_flow.csv");
+    return rows
+      .map((row) => ({
+        step: row.step || "",
+        title: row.title || "",
+        description: row.description || ""
+      }))
+      .filter((row) => row.step || row.title || row.description);
   }
 
   function renderAboutTimeline(rows) {
     const mount = document.querySelector("[data-about-timeline]");
-    if (!(mount instanceof HTMLElement) || !rows.length) {
+    if (!(mount instanceof HTMLElement)) {
       return;
     }
 
@@ -782,7 +789,7 @@
       .map(
         (item) => `
           <article class="card card-tight" data-reveal>
-            <span class="year">${escapeHtml(item.badge)}</span>
+            <span class="year">${escapeHtml(item.year)}</span>
             <p class="muted">${escapeHtml(item.description)}</p>
           </article>
         `
@@ -792,16 +799,23 @@
 
   function renderCoursesPricingNote(rows) {
     const mount = document.querySelector("[data-courses-pricing-note]");
-    if (!(mount instanceof HTMLElement) || !rows.length) {
+    if (!(mount instanceof HTMLElement)) {
       return;
     }
 
-    mount.textContent = rows[0].description || "";
+    if (!rows.length) {
+      mount.hidden = true;
+      mount.textContent = "";
+      return;
+    }
+
+    mount.hidden = false;
+    mount.textContent = rows[0].note || "";
   }
 
   function renderCoursesFlow(rows) {
     const mount = document.querySelector("[data-courses-flow]");
-    if (!(mount instanceof HTMLElement) || !rows.length) {
+    if (!(mount instanceof HTMLElement)) {
       return;
     }
 
@@ -809,7 +823,7 @@
       .map(
         (item) => `
           <article class="card card-pad" data-reveal>
-            <p class="chip" style="width:fit-content; margin-bottom:10px;">${escapeHtml(item.badge)}</p>
+            <p class="chip" style="width:fit-content; margin-bottom:10px;">${escapeHtml(item.step)}</p>
             <h3>${escapeHtml(item.title)}</h3>
             <p class="muted" style="margin-top:8px;">
               ${escapeHtml(item.description)}
@@ -1056,17 +1070,22 @@
       return;
     }
 
-    const [courses, siteContent] = await Promise.all([fetchCoursesData(), fetchSiteContentData()]);
+    const [courses, pricingNotes, coursesFlow] = await Promise.all([
+      fetchCoursesData(),
+      fetchCoursesPricingNoteData(),
+      fetchCoursesFlowData()
+    ]);
 
     const grid = document.querySelector("#courses-grid");
 
     if (grid) {
-      grid.innerHTML = courses.map((course) => renderCourseCard(course)).join("");
+      const featuredFirst = courses
+        .filter((course) => course.featured)
+        .concat(courses.filter((course) => !course.featured));
+      grid.innerHTML = featuredFirst.map((course) => renderCourseCard(course)).join("");
     }
 
-    const coursesPricing = contentRowsBySection(siteContent, "courses_pricing_note");
-    const coursesFlow = contentRowsBySection(siteContent, "courses_flow");
-    renderCoursesPricingNote(coursesPricing);
+    renderCoursesPricingNote(pricingNotes);
     renderCoursesFlow(coursesFlow);
 
     setupRevealOnScroll();
@@ -1078,8 +1097,7 @@
       return;
     }
 
-    const siteContent = await fetchSiteContentData();
-    const timelineRows = contentRowsBySection(siteContent, "about_timeline");
+    const timelineRows = await fetchAboutTimelineData();
     renderAboutTimeline(timelineRows);
 
     setupRevealOnScroll();
