@@ -737,28 +737,87 @@
     return normalized === "true" || normalized === "yes" || normalized === "1";
   }
 
-  function splitCsvList(value) {
-    return String(value || "")
-      .split("|")
-      .map((item) => item.trim())
-      .filter(Boolean);
-  }
-
   async function fetchCoursesData() {
     const rows = await fetchCsv("data/courses.csv");
-    return rows.map((row) => ({
-      title: row.title || "",
-      slug: row.slug || "",
-      level: row.level || "Beginner",
-      duration: row.duration || "",
-      price: row.price || "",
-      description: row.description || "",
-      curriculumBullets: splitCsvList(row.curriculumBullets),
-      whoItsFor: row.whoItsFor || "",
-      nextBatch: row.nextBatch || "",
-      whatsappMessageTemplate: row.whatsappMessageTemplate || "",
-      featured: parseBoolean(row.featured)
-    }));
+    return rows
+      .map((row) => ({
+        title: row.title || "",
+        description: row.description || "",
+        price: row.price || "",
+        featured: parseBoolean(row.featured)
+      }))
+      .filter((row) => row.title || row.description || row.price);
+  }
+
+  async function fetchSiteContentData() {
+    const rows = await fetchCsv("data/site_content.csv");
+    return rows
+      .map((row) => {
+        const order = Number(row.order);
+        return {
+          section: String(row.section || "").trim().toLowerCase(),
+          order: Number.isFinite(order) ? order : 0,
+          badge: row.badge || "",
+          title: row.title || "",
+          description: row.description || ""
+        };
+      })
+      .filter((row) => row.section);
+  }
+
+  function contentRowsBySection(rows, section) {
+    const key = String(section || "").trim().toLowerCase();
+    return rows
+      .filter((row) => row.section === key)
+      .sort((a, b) => a.order - b.order);
+  }
+
+  function renderAboutTimeline(rows) {
+    const mount = document.querySelector("[data-about-timeline]");
+    if (!(mount instanceof HTMLElement) || !rows.length) {
+      return;
+    }
+
+    mount.innerHTML = rows
+      .map(
+        (item) => `
+          <article class="card card-tight" data-reveal>
+            <span class="year">${escapeHtml(item.badge)}</span>
+            <p class="muted">${escapeHtml(item.description)}</p>
+          </article>
+        `
+      )
+      .join("");
+  }
+
+  function renderCoursesPricingNote(rows) {
+    const mount = document.querySelector("[data-courses-pricing-note]");
+    if (!(mount instanceof HTMLElement) || !rows.length) {
+      return;
+    }
+
+    mount.textContent = rows[0].description || "";
+  }
+
+  function renderCoursesFlow(rows) {
+    const mount = document.querySelector("[data-courses-flow]");
+    if (!(mount instanceof HTMLElement) || !rows.length) {
+      return;
+    }
+
+    mount.innerHTML = rows
+      .map(
+        (item) => `
+          <article class="card card-pad" data-reveal>
+            <p class="chip" style="width:fit-content; margin-bottom:10px;">${escapeHtml(item.badge)}</p>
+            <h3>${escapeHtml(item.title)}</h3>
+            <p class="muted" style="margin-top:8px;">
+              ${escapeHtml(item.description)}
+            </p>
+          </article>
+        `
+      )
+      .join("");
   }
 
   function renderServiceCard(service, options) {
@@ -816,50 +875,14 @@
   }
 
   function renderCourseCard(course) {
-    const level = course.level || "Beginner";
-    const levelStyle =
-      level === "Advanced"
-        ? "background:#efebe6; color:#1e1b17;"
-        : level === "Intermediate"
-          ? "background:var(--accent-soft); color:var(--accent);"
-          : "background:var(--primary-soft); color:var(--primary);";
-
-    const curriculum = (course.curriculumBullets || []).slice(0, 3).map((item) => `<li class="list-icon"><i data-lucide="sparkles"></i><span>${escapeHtml(item)}</span></li>`).join("");
-    const waMessage = course.whatsappMessageTemplate || courseMessageTemplate(course.title);
-
     return `
       <article class="card card-pad card-lift course-meta" data-reveal>
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-          <span class="tag" style="${levelStyle}">${escapeHtml(level)}</span>
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+          <h3 style="margin:0;">${escapeHtml(course.title)}</h3>
           <span class="course-price">${escapeHtml(course.price)}</span>
         </div>
 
-        <h3>${escapeHtml(course.title)}</h3>
         <p class="muted">${escapeHtml(course.description)}</p>
-
-        <div class="meta-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-          <div>
-            <span class="label">Duration</span>
-            <span class="value">${escapeHtml(course.duration)}</span>
-          </div>
-          <div>
-            <span class="label">Next batch</span>
-            <span class="value">${escapeHtml(formatDate(course.nextBatch))}</span>
-          </div>
-        </div>
-
-        <ul style="display:grid; gap:7px; font-size:0.92rem;">
-          ${curriculum}
-        </ul>
-
-        <p class="muted" style="font-size:0.9rem; border:1px solid rgba(221,209,194,0.8); border-radius:12px; padding:10px 12px; background:rgba(255,255,255,0.8);">
-          ${escapeHtml(course.whoItsFor)}
-        </p>
-
-        <a class="btn btn-primary" href="${createWhatsAppLink(waMessage)}" target="_blank" rel="noreferrer" aria-label="Register for ${escapeHtml(course.title)} on WhatsApp">
-          <i data-lucide="message-circle"></i>
-          Register on WhatsApp
-        </a>
       </article>
     `;
   }
@@ -1074,13 +1097,31 @@
       return;
     }
 
-    const courses = await fetchCoursesData();
+    const [courses, siteContent] = await Promise.all([fetchCoursesData(), fetchSiteContentData()]);
 
     const grid = document.querySelector("#courses-grid");
 
     if (grid) {
       grid.innerHTML = courses.map((course) => renderCourseCard(course)).join("");
     }
+
+    const coursesPricing = contentRowsBySection(siteContent, "courses_pricing_note");
+    const coursesFlow = contentRowsBySection(siteContent, "courses_flow");
+    renderCoursesPricingNote(coursesPricing);
+    renderCoursesFlow(coursesFlow);
+
+    setupRevealOnScroll();
+    refreshIcons();
+  }
+
+  async function initAboutPage() {
+    if (document.body.dataset.page !== "about") {
+      return;
+    }
+
+    const siteContent = await fetchSiteContentData();
+    const timelineRows = contentRowsBySection(siteContent, "about_timeline");
+    renderAboutTimeline(timelineRows);
 
     setupRevealOnScroll();
     refreshIcons();
@@ -1291,6 +1332,7 @@
       initHomePage(),
       initServicesPage(),
       initCoursesPage(),
+      initAboutPage(),
       initToolsPage(),
       initContactPage()
     ]).finally(function () {
